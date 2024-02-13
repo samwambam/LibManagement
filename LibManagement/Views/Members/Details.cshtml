@@ -1,0 +1,67 @@
+﻿@model LibManagement.Models.ViewModels.MemberDetailVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Member Id: @Model.MemberID </h4>
+    <p> Fines: @Model.Fine.ToString("C") </p>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<span class="text-danger"> @Html.ValidationMessageFor(modelItem => modelItem.Books) </span>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Books
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <form asp-action="Return" asp-route-id="@Model.MemberID" asp-route-bookId="@item.Id">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="submit" value="Return" class="btn table-btn btn-primary" />
+                    </div>
+                </td>
+            </tr>
+            </form>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MemberID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
